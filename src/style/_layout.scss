@@ -1,0 +1,28 @@
+$breakpointsToWidthMap: (
+  '576px': 540px,
+  '768px': 720px,
+  '992px': 960px,
+  '1200px': 1140px,
+);
+
+
+.container {
+  width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-right: auto;
+  margin-left: auto;
+
+  @each $bp, $max-width in $breakpointsToWidthMap {
+    @media (min-width: $bp) {
+      max-width: $max-width;
+    }
+  }
+}
+
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}

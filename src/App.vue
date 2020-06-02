@@ -1,32 +1,28 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <component :is="isAuthenticated ? 'Main' : 'Empty'">
+      <router-view :key="$route.fullPath"/>
+    </component>
   </div>
 </template>
 
+<script>
+import { mapGetters } from 'vuex';
+
+export default {
+  components: {
+    Main: () => import(/* webpackChunkName: "main" */ '@/layouts/Main'),
+    Empty: () => import(/* webpackChunkName: "login" */ '@/layouts/Empty'),
+  },
+  computed: {
+    ...mapGetters('auth', [
+      'isAuthenticated',
+    ]),
+  },
+};
+</script>
+
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
+@import '~normalize.css';
+@import '@/style';
 </style>
