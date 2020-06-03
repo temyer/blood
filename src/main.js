@@ -3,10 +3,12 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import store from './store';
-import Validation from '@/plugins';
+import Validation from '@/plugins/validation';
+import BloodUI from '@/plugins/bloodUI';
 
 Vue.config.productionTip = false;
 
+Vue.use(BloodUI);
 Vue.use(Validation);
 
 new Vue({

@@ -1,0 +1,26 @@
+.b-input {
+  &__textarea {
+    display: block;
+    outline: none;
+    width: 100%;
+    background: none;
+    border: none;
+    resize: none;
+  }
+}
+
+.b-input_autosize {
+  .b-input {
+    &__textarea {
+      overflow: hidden;
+    }
+  }
+}
+
+.b-input_resizable {
+  .b-input {
+    &__textarea {
+      resize: vertical;
+    }
+  }
+}

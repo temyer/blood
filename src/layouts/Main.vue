@@ -1,10 +1,17 @@
 <script>
+import AppNavBar from '@/components/AppNavBar.vue';
+
 export default {
   functional: true,
   render(h, { children }) {
     return h('div', {
-      staticClass: 'main-layout container',
-    }, [children]);
+      staticClass: 'main-layout',
+    }, [
+      h(AppNavBar),
+      h('main', {
+        staticClass: 'container',
+      }, children),
+    ]);
   },
 };
 </script>

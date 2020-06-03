@@ -1,0 +1,109 @@
+.b-input {
+  display: flex;
+  position: relative;
+
+  &__control {
+    flex: 1 1 0;
+    position: relative;
+  }
+
+  &__label {
+    position: absolute;
+    pointer-events: none;
+    color: rgba(0,0,0,.6);
+    transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &__input {
+    display: block;
+    background: none;
+    width: 100%;
+    border: none;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__icon {
+    width: 24px;
+    height: 24px;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.b-input_filled {
+  background: #f5f5f5;
+  padding: 8px;
+  border-radius: 4px 4px 0 0;
+  border-bottom: 1px solid rgba(0,0,0,.42);
+
+  .b-input {
+    &__label {
+      top: -4px;
+      left: 0;
+    }
+    &__control {
+        margin-top: 10px;
+    }
+  }
+
+  &::before,
+  &::after {
+    content: '';
+    width: 0;
+    height: 2px;
+    position: absolute;
+    bottom: 0;
+    background-color: #000;
+    transition: width 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  &::before {
+    left: 50%;
+  }
+  &::after {
+    right: 50%;
+  }
+}
+
+.b-input_focused.b-input_filled {
+  .b-input {
+    &__label {
+    transform: translate(-2px, -14px) scale(0.75);
+    }
+  }
+
+  &::before,
+  &::after {
+    width: 50%;
+  }
+}
+
+.b-input_outlined {
+  background-color: none;
+  padding: 16px 8px;
+  border: 1px solid rgba(0,0,0,.87);
+  border-radius: 4px;
+  transition: border-color 200ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  .b-input {
+    &__label {
+      background-color: #fff;
+      padding-left: 2px;
+      padding-right: 2px;
+    }
+  }
+}
+
+.b-input_focused.b-input_outlined {
+    border-color: red;
+
+    .b-input {
+      &__label {
+        transform: translate(-4px, -28px) scale(0.75);
+      }
+    }
+}

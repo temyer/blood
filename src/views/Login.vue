@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { required, minLength } from '@/plugins/rules';
+import { required, minLength } from '@/plugins/validation/rules';
 
 export default {
   data() {

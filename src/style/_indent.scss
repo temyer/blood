@@ -1,0 +1,21 @@
+$indent-type: (
+  'm': 'margin',
+  'p': 'padding',
+);
+
+$indent-direction: (
+  't': 'top',
+  'r': 'right',
+  'b': 'bottom',
+  'l': 'left',
+);
+
+@for $i from 0 through 12 {
+  @each $typeCode, $type in $indent-type {
+    @each $directionCode, $direction in $indent-direction {
+      .#{$typeCode}#{$directionCode}-#{$i} {
+        #{$type}-#{$direction}: #{$i * 4}px;
+      }
+    }
+  }
+}
