@@ -43,7 +43,8 @@ export default base.extend({
     },
     handleBlur(e) {
       this.isFocused = false;
-      this.$emit('focus', e);
+      this.$emit('blur', e);
+      if (document.activeElement) document.activeElement.blur();
     },
     handleInput(e) {
       this.$emit('input', e.target.value);
