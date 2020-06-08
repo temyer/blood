@@ -1,53 +1,42 @@
-function validateField(dataKey, value, rulesObject) {
-  const field = this.validationObject[dataKey];
-  field.valid = true;
-
-  Object.keys(rulesObject).some((ruleKey) => {
-    const rule = rulesObject[ruleKey];
-    const isValid = rule(value);
-
-    if (!isValid) {
-      field.valid = false;
-      return true;
-    }
-    return false;
-  });
-  return field;
+function getNestedPropsByString(obj, path) {
+  return path.split('.').reduce((res, pathPart) => res[pathPart], obj);
 }
 
-function getDataProxy(validation) {
-  const vm = this;
+function isNotNested(obj) {
+  return Object.values(obj).every((v) => typeof v === 'function');
+}
+
+function validateField(value, rules) {
+  return Object.values(rules).every((rule) => rule(value));
+}
+
+function getDataProxy(vm, validation) {
   const valueProxy = {};
   Object.keys(validation).forEach((dataKey) => {
-    let innerValue = '';
-    Object.defineProperty(valueProxy, dataKey, {
-      get() {
-        return innerValue;
-      },
-      set(value) {
-        const updatedFlags = validateField.call(
-          vm, dataKey, value, validation[dataKey],
-        );
-        updatedFlags.touched = true;
-        vm.validationObject[dataKey] = updatedFlags;
-        innerValue = value;
-      },
-    });
+    const dataProp = validation[dataKey];
+    if (isNotNested(dataProp)) {
+      valueProxy[dataKey] = {
+        touched: false,
+        valid: false,
+      };
+      let innerValue = '';
+      Object.defineProperty(valueProxy[dataKey], 'value', {
+        enumerable: false,
+        get() {
+          return innerValue;
+        },
+        set(value) {
+          valueProxy[dataKey].touched = true;
+          valueProxy[dataKey].valid = validateField(value, dataProp);
+          innerValue = value;
+        },
+      });
+    } else {
+      valueProxy[dataKey] = getDataProxy(vm, dataProp);
+    }
   });
 
   return valueProxy;
-}
-
-function getInitialFields(validation) {
-  const validationObject = {};
-
-  Object.keys(validation).forEach((dataKey) => {
-    validationObject[dataKey] = {
-      touched: false,
-      valid: false,
-    };
-  });
-  return validationObject;
 }
 
 export default {
@@ -56,27 +45,42 @@ export default {
       data() {
         const { validation } = this.$options;
         if (validation) {
-          this.validationObject = getInitialFields.call(this, validation);
-          this.cachedValues = getDataProxy.call(this, validation);
+          this.cachedValues = getDataProxy(this, validation);
         }
         return {};
       },
       beforeCreate() {
         const { validation } = this.$options;
         if (validation) {
+          this.$options.methods = {
+            ...this.$options.methods,
+            watchDeep(obj, parentPath = '') {
+              Object.keys(obj).forEach((dataKey) => {
+                const dataProp = obj[dataKey];
+                if (isNotNested(dataProp)) {
+                  const dataPath = `${parentPath}${dataKey}`;
+                  const vmValue = getNestedPropsByString(this, dataPath);
+                  const cachedValue = getNestedPropsByString(this.cachedValues, dataPath);
+                  if (cachedValue.value !== vmValue) {
+                    cachedValue.value = vmValue;
+                  }
+                } else {
+                  this.watchDeep(dataProp, `${dataKey}.`);
+                }
+              });
+            },
+          };
+
           this.$options.computed = {
             ...this.$options.computed,
             $v() {
-              Object.keys(validation).forEach((dataKey) => {
-                if (this.cachedValues[dataKey] !== this[dataKey]) {
-                  this.cachedValues[dataKey] = this[dataKey];
-                }
-              });
-
-              const valid = Object.values(this.validationObject).every((field) => field.valid);
+              try {
+                this.watchDeep(validation);
+              } catch (e) {
+                console.log(e);
+              }
               return {
-                ...this.validationObject,
-                valid,
+                ...this.cachedValues,
               };
             },
           };

@@ -1,5 +1,4 @@
 /* eslint no-param-reassign: 0 */
-/* eslint no-underscore-dangle: 0 */
 export default {
   bind(el, binding) {
     el.__clickOutsideEventHandler = (event) => {
