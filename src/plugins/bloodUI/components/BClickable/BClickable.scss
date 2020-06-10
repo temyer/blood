@@ -1,0 +1,66 @@
+$filled-bg: #ff5252;
+$filled-bg-focus: lighten($filled-bg, 5);
+$filled-color: #fff;
+
+$outlined-border: #ff5252;
+$outlined-color: #ff5252;
+$outlined-bg-focus: lighten($outlined-color, 27);
+$outlined-bg-active: lighten($outlined-color, 23);
+
+$texted-bg-focus: rgba(0, 0, 0, .15);
+$texted-bg-active: rgba(0, 0, 0, .1);
+
+.b-clickable {
+    cursor: pointer;
+    padding: 14px 12px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    outline: none;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    font-size: 16px;
+    height: fit-content;
+    transition: background-color 300ms ease;
+}
+
+.b-clickable_outlined {
+  border: 1px solid $outlined-border;
+  background: none;
+  color: $outlined-color;
+
+  &.active {
+    background-color: $outlined-bg-active;
+  }
+
+  &:hover {
+    background-color: $outlined-bg-focus;
+  }
+}
+
+.b-clickable_filled {
+  border: none;
+  color: $filled-color;
+  background: $filled-bg;
+
+  &.active {
+    background-color: $nav-link-color-active;
+  }
+
+  &:hover {
+    background-color: $filled-bg-focus;
+  }
+}
+
+.b-clickable_texted {
+  background: none;
+  border: none;
+
+  &.active {
+    background-color: $texted-bg-active;
+  }
+
+  &:hover {
+    background-color: $texted-bg-focus;
+  }
+}

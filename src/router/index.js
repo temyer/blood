@@ -20,6 +20,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "norms" */ '@/views/Profile.vue'),
   },
   {
+    path: '/analyze/:id(\\d+)',
+    name: 'AddAnalyze',
+    component: () => import(/* webpackChunkName: "norms" */ '@/views/AddAnalyze.vue'),
+  },
+  {
     path: '/analyze/create',
     name: 'AddAnalyze',
     component: () => import(/* webpackChunkName: "norms" */ '@/views/AddAnalyze.vue'),

@@ -10,6 +10,23 @@ function validateField(value, rules) {
   return Object.values(rules).every((rule) => rule(value));
 }
 
+function isFieldTrue(state, field) {
+  return Object.values(state).every((flags) => {
+    if (Object.prototype.hasOwnProperty.call(flags, field)) {
+      return flags[field];
+    }
+    return isFieldTrue(flags, field);
+  });
+}
+
+function isAllValid(state) {
+  return isFieldTrue(state, 'valid');
+}
+
+function isAllTouched(state) {
+  return isFieldTrue(state, 'touched');
+}
+
 function getDataProxy(vm, validation) {
   const valueProxy = {};
   Object.keys(validation).forEach((dataKey) => {
@@ -46,6 +63,7 @@ export default {
         const { validation } = this.$options;
         if (validation) {
           this.cachedValues = getDataProxy(this, validation);
+          this._$touched = false;
         }
         return {};
       },
@@ -74,13 +92,14 @@ export default {
           this.$options.computed = {
             ...this.$options.computed,
             $v() {
-              try {
-                this.watchDeep(validation);
-              } catch (e) {
-                console.log(e);
-              }
+              this.watchDeep(validation);
+              const valid = isAllValid(this.cachedValues);
+              const touched = this._$touched || isAllTouched(this.cachedValues);
+              if (touched) this._$touched = true;
               return {
                 ...this.cachedValues,
+                touched,
+                valid,
               };
             },
           };

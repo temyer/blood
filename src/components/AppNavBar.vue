@@ -10,10 +10,11 @@
             :key="link.to"
             class="nav-list__item mr-3"
         >
-            <router-link
-                :to="link.to"
-                class="nav-link"
-                v-text="link.text"
+            <b-link
+              :to="link.to"
+              class="nav-link"
+              texted
+              v-text="link.text"
             />
         </li>
       </ul>
@@ -69,20 +70,6 @@ export default {
   &__item {
     font-weight: bold;
     text-transform: uppercase;
-  }
-}
-
-.nav-link {
-  padding: 16px 12px;
-  border-radius: 3px;
-  transition: background-color $animation-fast ease;
-
-  &.active {
-    background-color: $nav-link-color-active;
-  }
-
-  &:hover {
-    background-color: $nav-link-color-hover;
   }
 }
 </style>

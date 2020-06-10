@@ -27,6 +27,14 @@ $breakpointsToWidthMap: (
   width: 100%;
 }
 
+.justify-between {
+  justify-content: space-between;
+}
+
+.align-center {
+  align-items: center;
+}
+
 .card {
   display: inline-block;
   margin: 4px;

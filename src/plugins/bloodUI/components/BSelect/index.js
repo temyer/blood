@@ -46,6 +46,12 @@ export default BInput.extend({
       this.$emit('input', value);
     },
   },
+  created() {
+    if (this.value) {
+      const initValue = this.items.find((item) => item[this.itemValue] === this.value);
+      this.activeItem = initValue;
+    }
+  },
   methods: {
     handleFocus(e) {
       BInput.options.methods.handleFocus.call(this, e);

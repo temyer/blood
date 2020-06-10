@@ -1,20 +1,40 @@
 <template>
-  <ul class="analyze-list">
+  <ul class="analyze-list row">
     <li
       v-for="analyze in list"
       :key="analyze.id"
+      class="card analyze-list__item"
+      @click="$router.push(`/analyze/${analyze.id}`)"
     >
+      <p class="analyze-list__text">
+        <span>Создан:</span>
+        <b>{{ formatDate(new Date(analyze.createdAt)) }}</b>
+      </p>
+      <p
+        v-if="analyze.updatedAt"
+        class="analyze-list__text"
+      >
+        <span>Обновлен:</span>
+        <b>{{ formatDate(new Date(analyze.updatedAt)) }}</b>
+      </p>
     </li>
-    <li class="card analyze-list__item analyze-list__item_empty">
+    <li class="card analyze-list__item analyze-list__item_empty"
+      @click="$router.push('/analyze/create')"
+    >
       <img width="100" height="100" src="~@/assets/images/add.svg"/>
     </li>
   </ul>
 </template>
 
 <script>
+import { formatDate } from '@/utils';
+
 export default {
   props: {
     list: Array,
+  },
+  methods: {
+    formatDate,
   },
 };
 </script>
@@ -39,6 +59,11 @@ export default {
       align-items: center;
       justify-content: center;
     }
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
   }
 }
 </style>

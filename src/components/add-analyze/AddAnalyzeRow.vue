@@ -1,15 +1,15 @@
 <template>
-  <div class="row add-analyze-row">
+  <div class="row add-analyze-row justify-between">
     <b-input
       label="Наименование"
       :value="analyzeRow.name"
-      class="mr-4 add-analyze-row__widest"
+      class="ml-4 mb-4"
       @input="handleFieldInput('name', $event)"
     />
-      <b-input
+    <b-input
       label="Значение"
       :value="analyzeRow.value"
-      class="mr-4"
+      class="ml-4 mb-4"
       @input="handleFieldInput('value', $event)"
     />
     <b-select
@@ -17,8 +17,15 @@
       :value="analyzeRow.unit"
       :items="items"
       item-text="unit"
+      class="ml-4 mb-4"
       @input="handleFieldInput('unit', $event)"
     />
+    <b-button
+      class="add-analyze-row__delete-btn ml-4 mb-4"
+      @click="deleteRow"
+    >
+      Удалить
+    </b-button>
 </div>
 </template>
 
@@ -48,6 +55,9 @@ export default {
         field, value, id: this.analyzeRow.id,
       });
     },
+    deleteRow() {
+      this.$emit('deleteRow', this.analyzeRow.id);
+    },
   },
   validation: {
     analyzeRow: {
@@ -67,8 +77,13 @@ export default {
 
 <style lang="scss">
 .add-analyze-row {
-  &__widest {
-    flex: 1 1 0;
+  &__delete-btn {
+    background: blue;
+
+    &:hover,
+    &:focus {
+      background: lighten(blue, 25);
+    }
   }
 }
 </style>

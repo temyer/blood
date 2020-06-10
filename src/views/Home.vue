@@ -10,17 +10,17 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import AnalyzeList from '@/components/home/AnalyzeList.vue';
 
 export default {
   components: {
     AnalyzeList,
   },
-  data() {
-    return {
-      analyzeList: [],
-    };
+  computed: {
+    ...mapState('analyzeList', [
+      'analyzeList',
+    ]),
   },
-  computed: {},
 };
 </script>
