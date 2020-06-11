@@ -6,7 +6,7 @@ export default BInput.extend({
   props: {
     items: {
       type: Array,
-      required: true,
+      default: () => [],
     },
     itemValue: {
       type: String,
@@ -45,9 +45,12 @@ export default BInput.extend({
       const value = val ? val[this.itemValue] : null;
       this.$emit('input', value);
     },
+    // items() {
+    //   this.renderItems();
+    // },
   },
   created() {
-    if (this.value) {
+    if (this.value || this.value === 0) {
       const initValue = this.items.find((item) => item[this.itemValue] === this.value);
       this.activeItem = initValue;
     }
@@ -117,7 +120,7 @@ export default BInput.extend({
       this.activeItem = selectedItem;
       this.handleBlur();
     },
-    renderListItem(item, index) {
+    renderListItem(item, index, clickable = true) {
       return this.$createElement('li', {
         staticClass: 'b-select__list-item',
         class: {
@@ -129,7 +132,11 @@ export default BInput.extend({
         },
         on: {
           click: () => {
-            this.handleListItemClick(item);
+            if (!clickable) {
+              this.handleBlur();
+            } else {
+              this.handleListItemClick(item);
+            }
           },
           mouseover: () => {
             this.focusIndex = index;
@@ -140,7 +147,9 @@ export default BInput.extend({
     renderItems() {
       const content = this.items.length
         ? this.items.map(this.renderListItem)
-        : this.renderListItem({ [this.itemValue]: -1, [this.itemText]: this.noDataText });
+        : [this.renderListItem(
+          { [this.itemValue]: -1, [this.itemText]: this.noDataText }, 0, false,
+        )];
       return this.$createElement('ul', {
         staticClass: 'b-select__list',
         ref: 'list',

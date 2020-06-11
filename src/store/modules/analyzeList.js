@@ -1,7 +1,6 @@
 const analyzeListKey = 'analyzeList';
 
 export default {
-  namespaced: true,
   state: {
     analyzeList: JSON.parse(localStorage.getItem(analyzeListKey)) || [],
   },

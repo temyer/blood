@@ -1,5 +1,6 @@
 $filled-bg: #ff5252;
 $filled-bg-focus: lighten($filled-bg, 5);
+$filled-bg-active: rgba(0, 0, 0, .1);
 $filled-color: #fff;
 
 $outlined-border: #ff5252;
@@ -45,7 +46,7 @@ $texted-bg-active: rgba(0, 0, 0, .1);
   background: $filled-bg;
 
   &.active {
-    background-color: $nav-link-color-active;
+    background-color: $filled-bg-active;
   }
 
   &:hover {

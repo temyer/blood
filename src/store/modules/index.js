@@ -13,6 +13,7 @@ requireModule.keys().forEach((filePath) => {
     .pop()
     .replace(/\.\w+$/, '');
 
+  storeModule.namespaced = true;
   modules[moduleName] = storeModule;
 });
 

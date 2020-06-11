@@ -30,7 +30,7 @@ export default base.extend({
     },
     computedClasses() {
       return {
-        'b-input_focused': this.isFocused || this.value,
+        'b-input_focused': this.isFocused || this.value || this.value === 0,
         'b-input_filled': !this.outlined,
         'b-input_outlined': this.outlined,
       };

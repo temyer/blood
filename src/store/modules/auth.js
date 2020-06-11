@@ -23,7 +23,6 @@ const validateToken = (token) => new Promise((res, rej) => {
 const tokenKey = 'token';
 
 export default {
-  namespaced: true,
   state: {
     token: null,
   },
