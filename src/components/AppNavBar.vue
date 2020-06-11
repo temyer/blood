@@ -39,6 +39,10 @@ export default {
           text: 'Профиль',
           to: '/me',
         },
+        {
+          text: 'Выйти',
+          to: '/logout',
+        },
       ],
     };
   },

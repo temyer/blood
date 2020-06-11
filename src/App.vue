@@ -8,11 +8,13 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import Main from '@/layouts/Main.vue';
+import Empty from '@/layouts/Empty.vue';
 
 export default {
   components: {
-    Main: () => import(/* webpackChunkName: "main" */ '@/layouts/Main'),
-    Empty: () => import(/* webpackChunkName: "login" */ '@/layouts/Empty'),
+    Main,
+    Empty,
   },
   computed: {
     ...mapGetters('auth', [
