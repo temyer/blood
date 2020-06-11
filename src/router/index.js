@@ -13,16 +13,6 @@ const routes = [
     meta: {
       authRequired: true,
       title: 'Мои анализы',
-      transition: 'slide-right',
-    },
-  },
-  {
-    path: '/norms',
-    name: 'Norms',
-    component: () => import(/* webpackChunkName: "norms" */ '@/views/Norms.vue'),
-    meta: {
-      authRequired: true,
-      title: 'Нормативы',
     },
   },
   {
@@ -41,7 +31,6 @@ const routes = [
     meta: {
       authRequired: true,
       title: 'Редактировать анализ',
-      transition: 'slide-left',
     },
   },
   {
@@ -51,7 +40,6 @@ const routes = [
     meta: {
       authRequired: true,
       title: 'Создать анализ',
-      transition: 'slide-left',
     },
   },
   {

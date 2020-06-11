@@ -52,8 +52,8 @@ export default {
       return user;
     },
     saveUser({ commit }, user) {
-      commit('setItem', { item: 'user', value: user });
       setUserFunction(user);
+      commit('setItem', { item: 'user', value: user });
     },
   },
 };

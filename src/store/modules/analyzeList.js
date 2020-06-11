@@ -1,18 +1,36 @@
 const analyzeListKey = 'analyzeList';
 
+function getAnalyzeListFunction() {
+  return new Promise((res) => {
+    setTimeout(() => {
+      res(JSON.parse(localStorage.getItem(analyzeListKey)));
+    }, 1000);
+  });
+}
+
+function setAnalyzeListFunction(list) {
+  localStorage.setItem(analyzeListKey, JSON.stringify(list));
+}
+
 export default {
   state: {
-    analyzeList: JSON.parse(localStorage.getItem(analyzeListKey)) || [],
+    analyzeList: [],
   },
   mutations: {
-    _saveToLocalStorate(state, list) {
-      localStorage.setItem(analyzeListKey, JSON.stringify(list));
-
+    setAnalyzeList(state, list) {
       state.analyzeList = list;
-      console.log(list);
     },
   },
   actions: {
+    async getAnalyzeList({ state, commit }) {
+      if (state.analyzeList.length > 0) {
+        return state.analyzeList;
+      }
+
+      const analyzeList = await getAnalyzeListFunction();
+      commit('setAnalyzeList', analyzeList);
+      return analyzeList;
+    },
     addAnalyze({ state, commit }, item) {
       const itemToAppend = {
         data: item,
@@ -21,7 +39,8 @@ export default {
       };
       const analyzeList = [...state.analyzeList, itemToAppend];
 
-      commit('_saveToLocalStorate', analyzeList);
+      setAnalyzeListFunction(analyzeList);
+      commit('setAnalyzeList', analyzeList);
     },
     editAnalyze({ state, commit }, { item, id }) {
       const analyzeList = JSON.parse(JSON.stringify(state.analyzeList));
@@ -29,11 +48,14 @@ export default {
       analyzeList[indexOfItemToEdit].data = item;
       analyzeList[indexOfItemToEdit].updatedAt = new Date();
 
-      commit('_saveToLocalStorate', analyzeList);
+      setAnalyzeListFunction(analyzeList);
+      commit('setAnalyzeList', analyzeList);
     },
     deleteAnalyze({ state, commit }, id) {
       const analyzeList = state.analyzeList.filter((analyze) => analyze.id !== id);
-      commit('_saveToLocalStorate', analyzeList);
+
+      setAnalyzeListFunction(analyzeList);
+      commit('setAnalyzeList', analyzeList);
     },
   },
   getters: {

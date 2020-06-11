@@ -32,10 +32,6 @@ export default {
           to: '/',
         },
         {
-          text: 'Нормативы',
-          to: '/norms',
-        },
-        {
           text: 'Профиль',
           to: '/me',
         },
