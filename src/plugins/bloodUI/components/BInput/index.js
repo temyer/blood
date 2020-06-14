@@ -18,6 +18,7 @@ export default base.extend({
       default: 'text',
     },
     outlined: Boolean,
+    errorMessage: [String, Boolean, undefined, null],
   },
   data() {
     return {
@@ -33,6 +34,7 @@ export default base.extend({
         'b-input_focused': this.isFocused || this.value || this.value === 0,
         'b-input_filled': !this.outlined,
         'b-input_outlined': this.outlined,
+        'b-input_has-error': this.errorMessage,
       };
     },
   },
@@ -50,13 +52,18 @@ export default base.extend({
       this.$emit('input', e.target.value);
     },
     renderPrependIcon() {
-      // return this.$createElement('div', {
-      //   staticClass: 'b-input__icon b-input__prepend-icon',
-      // }, 'D');
-      return null;
+      if (!this.$slots.prependIcon) return null;
+
+      return this.$createElement('div', {
+        staticClass: 'b-input__icon b-input__prepend-icon',
+      }, [this.$slots.prependIcon]);
     },
     renderAppendIcon() {
-      return null;
+      if (!this.$slots.appendIcon) return null;
+
+      return this.$createElement('div', {
+        staticClass: 'b-input__icon b-input__append-icon',
+      }, [this.$slots.appendIcon]);
     },
     renderLabel() {
       if (!this.label) return null;
@@ -87,6 +94,13 @@ export default base.extend({
         },
       });
     },
+    renderError() {
+      if (!this.errorMessage) return null;
+
+      return this.$createElement('div', {
+        staticClass: 'b-input__error',
+      }, this.errorMessage);
+    },
     renderContol() {
       return this.$createElement('div', {
         staticClass: 'b-input__control',
@@ -96,17 +110,22 @@ export default base.extend({
       ]);
     },
     renderContent() {
-      return [
+      return this.$createElement('div', {
+        staticClass: 'b-input__content',
+      }, [
         this.renderPrependIcon(),
         this.renderContol(),
         this.renderAppendIcon(),
-      ];
+      ]);
     },
   },
   render(h) {
     return h('div', {
       staticClass: 'b-input',
       class: this.computedClasses,
-    }, this.renderContent());
+    }, [
+      this.renderContent(),
+      this.renderError(),
+    ]);
   },
 });

@@ -79,6 +79,7 @@ export default {
     },
     isLastRowValid() {
       const lastChild = this.$refs.list[this.analyzeList.length - 1];
+      lastChild.$v.touch();
       return lastChild.$v.valid;
     },
     addNewRow() {

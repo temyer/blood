@@ -1,6 +1,6 @@
 $filled-bg: #ff5252;
 $filled-bg-focus: lighten($filled-bg, 5);
-$filled-bg-active: rgba(0, 0, 0, .1);
+$filled-bg-active: lighten($filled-bg, 10);
 $filled-color: #fff;
 
 $outlined-border: #ff5252;
@@ -31,7 +31,8 @@ $texted-bg-active: rgba(0, 0, 0, .1);
   background: none;
   color: $outlined-color;
 
-  &.active {
+  &.active,
+  &:focus {
     background-color: $outlined-bg-active;
   }
 
@@ -45,7 +46,8 @@ $texted-bg-active: rgba(0, 0, 0, .1);
   color: $filled-color;
   background: $filled-bg;
 
-  &.active {
+  &.active,
+  &:focus {
     background-color: $filled-bg-active;
   }
 

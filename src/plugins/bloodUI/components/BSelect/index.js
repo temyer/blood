@@ -45,9 +45,6 @@ export default BInput.extend({
       const value = val ? val[this.itemValue] : null;
       this.$emit('input', value);
     },
-    // items() {
-    //   this.renderItems();
-    // },
   },
   created() {
     if (this.value || this.value === 0) {
@@ -120,6 +117,18 @@ export default BInput.extend({
       this.activeItem = selectedItem;
       this.handleBlur();
     },
+    renderAppendIcon() {
+      return this.$createElement('div', {
+        staticClass: 'b-input__icon b-input__append-icon b-select__arrow',
+        class: [this.isMenuOpen && 'b-select__arrow_open'],
+      }, [
+        this.$createElement('img', {
+          domProps: {
+            src: require('../../assets/arrow.svg'), //eslint-disable-line
+          },
+        }),
+      ]);
+    },
     renderListItem(item, index, clickable = true) {
       return this.$createElement('li', {
         staticClass: 'b-select__list-item',
@@ -181,12 +190,14 @@ export default BInput.extend({
       }, [content]);
     },
     renderContent() {
-      return [
+      return this.$createElement('div', {
+        staticClass: 'b-input__content',
+      }, [
         this.renderPrependIcon(),
         this.renderContol(),
         this.renderAppendIcon(),
         this.renderTransition(),
-      ];
+      ]);
     },
   },
   render(h) {
@@ -203,6 +214,9 @@ export default BInput.extend({
         blur: this.handleBlur,
         keydown: this.handleKeydown,
       },
-    }, this.renderContent());
+    }, [
+      this.renderContent(),
+      this.renderError(),
+    ]);
   },
 });

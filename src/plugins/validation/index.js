@@ -56,6 +56,16 @@ function getDataProxy(vm, validation) {
   return valueProxy;
 }
 
+function touchAll(obj, set) {
+  Object.values(obj).forEach((value) => {
+    if (Object.prototype.hasOwnProperty.call(value, 'touched')) {
+      set(value, 'touched', true);
+    } else {
+      touchAll(value, set);
+    }
+  });
+}
+
 export default {
   install(Vue) {
     Vue.mixin({
@@ -100,10 +110,17 @@ export default {
                 ...this.cachedValues,
                 touched,
                 valid,
+                touch: this._touch,
               };
             },
           };
         }
+      },
+      methods: {
+        _touch() {
+          touchAll(this.cachedValues, this.$set);
+          this.$forceUpdate();
+        },
       },
     });
   },

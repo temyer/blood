@@ -46,6 +46,15 @@
       color: white;
     }
   }
+
+  &__arrow {
+    transition: transform 200ms;
+    transform-origin: 50% 70%;
+
+    &_open {
+      transform: rotate(-180deg);
+    }
+  }
 }
 
 .fade-enter-active,

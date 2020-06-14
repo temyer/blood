@@ -9,15 +9,25 @@
         v-model="login"
         label="Логин"
         outlined
+        :error-message="errorMessages.login"
         class="mb-4"
-      />
+      >
+        <template v-slot:prependIcon>
+          <img width="24" height="24" src="~@/assets/images/person.svg"/>
+        </template>
+      </b-input>
       <b-input
         v-model="password"
         label="Пароль"
         outlined
         class="mb-4"
         type="password"
-      />
+        :error-message="errorMessages.password"
+      >
+        <template v-slot:prependIcon>
+          <img width="24" height="24" src="~@/assets/images/key.svg"/>
+        </template>
+      </b-input>
       <b-button>
         Войти
       </b-button>
@@ -36,6 +46,14 @@ export default {
       password: '',
     };
   },
+  computed: {
+    errorMessages() {
+      return {
+        login: this.isErrorShown(this.$v.login) && 'Необходимо мин 3 символа',
+        password: this.isErrorShown(this.$v.password) && 'Необходимо заполнить',
+      };
+    },
+  },
   methods: {
     ...mapActions('auth', [
       'authLogin',
@@ -53,6 +71,9 @@ export default {
           console.log(err);
         }
       }
+    },
+    isErrorShown(field) {
+      return !field.valid && field.touched;
     },
   },
   validation: {

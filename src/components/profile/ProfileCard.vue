@@ -23,6 +23,12 @@
       :items="sexList"
       class="mb-4"
     />
+    <b-textarea
+      v-model="userData.about"
+      label="О себе"
+      outlined
+      class="mb-4"
+    />
     <b-button
       class="profile-card__save-btn"
     >
@@ -51,6 +57,7 @@ export default {
           name: this.userData.name,
           age: this.userData.age,
           sex: this.userData.sex,
+          about: this.userData.about,
         });
       }
     },

@@ -4,12 +4,14 @@
       label="Наименование"
       :value="analyzeRow.name"
       class="ml-4 mb-4"
+      :error-message="showError($v.analyzeRow.name)"
       @input="handleFieldInput('name', $event)"
     />
     <b-input
       label="Значение"
       :value="analyzeRow.value"
       class="ml-4 mb-4"
+      :error-message="showError($v.analyzeRow.value)"
       @input="handleFieldInput('value', $event)"
     />
     <b-select
@@ -18,6 +20,7 @@
       :items="items"
       item-text="unit"
       class="ml-4 mb-4"
+      :error-message="showError($v.analyzeRow.unit)"
       @input="handleFieldInput('unit', $event)"
     />
     <b-button
@@ -57,6 +60,9 @@ export default {
     },
     deleteRow() {
       this.$emit('deleteRow', this.analyzeRow.id);
+    },
+    showError(field) {
+      return !field.valid && field.touched && 'Необходимо заполнить';
     },
   },
   validation: {

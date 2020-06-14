@@ -2,7 +2,7 @@
   <loading-wrapper
     :loading="loading"
     width="285"
-    height="378"
+    height="525"
   >
     <profile-card
       :user-data-initial="userData"
@@ -30,6 +30,7 @@ export default {
         name: '',
         age: '',
         sex: '',
+        about: '',
       },
     };
   },
