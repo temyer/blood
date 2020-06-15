@@ -82,6 +82,10 @@ export default {
         if (validation) {
           this.$options.methods = {
             ...this.$options.methods,
+            _touch() {
+              touchAll(this.cachedValues, this.$set);
+              this.$forceUpdate();
+            },
             watchDeep(obj, parentPath = '') {
               Object.keys(obj).forEach((dataKey) => {
                 const dataProp = obj[dataKey];
@@ -115,12 +119,6 @@ export default {
             },
           };
         }
-      },
-      methods: {
-        _touch() {
-          touchAll(this.cachedValues, this.$set);
-          this.$forceUpdate();
-        },
       },
     });
   },
